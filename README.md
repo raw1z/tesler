@@ -1,8 +1,18 @@
-= tesler
+# tesler #
 
-Description goes here.
+Tesler is a small DSl which allows you to describe a directory/file hierarchy where to copy some files. 
 
-== Note on Patches/Pull Requests
+## Installation ##
+
+Just run the following command :
+
+    gem install tesler
+
+## Usage ##
+
+Look at the example in the gem directory for details.
+
+## Note on Patches/Pull Requests ##
  
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -12,6 +22,6 @@ Description goes here.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+## Copyright ##
 
 Copyright (c) 2010 Rawane ZOSSOU. See LICENSE for details.

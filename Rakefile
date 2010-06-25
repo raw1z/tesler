@@ -5,12 +5,12 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "tesler"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = "A little DSL to describe how to copy files inside a directory."
+    gem.description = "Tesler is a DSL which allows you to describe a directory hierarchy where to copy some files."
     gem.email = "dev@raw1z.fr"
     gem.homepage = "http://github.com/raw1z/tesler"
     gem.authors = ["Rawane ZOSSOU"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
