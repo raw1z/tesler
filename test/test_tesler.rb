@@ -25,7 +25,6 @@ class TestTesler < Test::Unit::TestCase
       directory 'subdir1' do
         copy 'test\src\file3'
         copy 'test\src\subdir1\file5'
-        copy 'c:\temp'
         
         directory 'subdir3' do
           copy 'test\src\file8'
@@ -46,7 +45,6 @@ class TestTesler < Test::Unit::TestCase
     assert File.exists?("test/dest/subdir1")
     assert File.exists?("test/dest/subdir1/file3")
     assert File.exists?("test/dest/subdir1/file5")
-    assert File.exists?("test/dest/subdir1/temp")
     assert File.exists?("test/dest/subdir1/subdir3")
     assert File.exists?("test/dest/subdir1/subdir3/file8")
     assert File.exists?("test/dest/subdir1/subdir3/renamed")
@@ -61,11 +59,10 @@ class TestTesler < Test::Unit::TestCase
     assert_match messages[4],  /(create|exists)\ttest\/dest\/subdir1/
     assert_equal messages[5],  "copy\ttest/dest/subdir1/file3"
     assert_equal messages[6],  "copy\ttest/dest/subdir1/file5"
-    assert_equal messages[7],  "copy\ttest/dest/subdir1/temp"
-    assert_match messages[8],  /(create|exists)\ttest\/dest\/subdir1\/subdir3/
-    assert_equal messages[9],  "copy\ttest/dest/subdir1/subdir3/file8"
-    assert_equal messages[10], "copy\ttest/dest/subdir1/subdir3/renamed"
-    assert_equal messages[11], "copy\ttest/dest/subdir2"
-    assert_equal messages[12], "copy\ttest/dest/renamed"
+    assert_match messages[7],  /(create|exists)\ttest\/dest\/subdir1\/subdir3/
+    assert_equal messages[8],  "copy\ttest/dest/subdir1/subdir3/file8"
+    assert_equal messages[9],  "copy\ttest/dest/subdir1/subdir3/renamed"
+    assert_equal messages[10], "copy\ttest/dest/subdir2"
+    assert_equal messages[11], "copy\ttest/dest/renamed"
   end
 end
