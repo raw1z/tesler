@@ -23,7 +23,15 @@ module Tesler
       def self.destination_name(file_name, options)
         base_name = options[:rename]
         base_name = File.basename(file_name) if base_name.nil?
-        "#{options[:destination]}/#{base_name}"
+        destination = "#{options[:destination]}/#{base_name}"
+
+        # if the directory option is set, create the sub-directory if necessary
+        if options[:directory]
+          FileUtils.mkdir_p "#{options[:destination]}/#{options[:directory]}"
+          destination = "#{options[:destination]}/#{options[:directory]}/#{base_name}"
+        end
+
+        destination
       end
     end
   end

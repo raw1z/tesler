@@ -27,6 +27,8 @@ class TestTesler < Test::Unit::TestCase
           copy 'test\src\file1'
         end
       end
+
+      copy 'test\src\file2', :directory => 'subdir4'
     end
 
     assert File.exists?("test/dest/1/file1")
@@ -35,6 +37,7 @@ class TestTesler < Test::Unit::TestCase
     assert File.exists?("test/dest/1/subdir1/file3")
     assert File.exists?("test/dest/1/subdir1/file5")
     assert File.exists?("test/dest/1/subdir1/subdir3/file1")
+    assert File.exists?("test/dest/1/subdir4/file2")
   end
 
   should "copy entire directories" do
@@ -113,6 +116,7 @@ class TestTesler < Test::Unit::TestCase
       copy 'test\src\subdir2'
       copy 'test\src\subdir2', :rename => 'subdir2_renamed'
       copy 'test\src\reg_*.test'
+      copy 'test\src\file2', :directory => 'subdir4'
     end
 
     messages = @output.messages.map { |m| m.strip }
@@ -136,6 +140,7 @@ class TestTesler < Test::Unit::TestCase
     assert_equal  "copy\t./test/src/reg_1.test\ttest/dest/5/reg_1.test", messages[17]
     assert_equal  "copy\t./test/src/reg_2.test\ttest/dest/5/reg_2.test", messages[18]
     assert_equal  "copy\t./test/src/reg_3.test\ttest/dest/5/reg_3.test", messages[19]
+    assert_equal  "copy\t./test/src/file2\ttest/dest/5/subdir4/file2", messages[20]
   end
 
   should "allow to set a default src directory" do
