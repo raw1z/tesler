@@ -26,6 +26,9 @@ directory 'dest' do
 
       # copie d'un fichier en le renommant
       copy 'src\file9', :rename => 'renamed'
+      
+      # copie d'un ensemble de fichiers
+      copy 'test\src\*.test'
     end
   end
 
@@ -35,6 +38,8 @@ directory 'dest' do
   # copie d'un dossier entier en le renommant
   copy 'src\subdir2', :rename => 'renamed'
 
+  # copie d'un ensemble de fichiers
+  copy 'test\src\reg_*.test'
 end
 
 

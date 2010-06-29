@@ -8,3 +8,15 @@ require 'tesler'
 
 class Test::Unit::TestCase
 end
+
+# This class simulate the standard output
+class Output
+  def messages
+    @messages ||= []
+  end
+
+  def puts(message)
+    messages << message
+  end
+end
+
