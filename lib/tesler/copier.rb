@@ -62,7 +62,7 @@ module Tesler
         self.as(Tesler::Config.operator).copy_file(filename, options)
 
       else
-        raise "File not found : #{filename}"
+        Tesler::Config.output.puts "\tnot found\t#{filename}"
       end
     end
   end

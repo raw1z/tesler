@@ -279,7 +279,7 @@ class TestTesler < Test::Unit::TestCase
     assert_equal  "copy\ttest/src/subdir1/file5\ttest/dest/7/subdir1/file5", messages[6]
     assert_match  /(create|exists)\ttest\/dest\/7\/subdir1\/subdir3/, messages[7]
     assert_equal  "copy\ttest/src/file1\ttest/dest/7/subdir1/subdir3/file1", messages[8]
-    assert_equal "copy\ttest/src/file2\ttest/dest/7/subdir1/subdir3/file2_renamed", messages[9]
+    assert_equal  "copy\ttest/src/file2\ttest/dest/7/subdir1/subdir3/file2_renamed", messages[9]
     assert_equal  "copy\ttest/src/noreg_1.test\ttest/dest/7/subdir1/subdir3/noreg_1.test", messages[10]
     assert_equal  "copy\ttest/src/noreg_2.test\ttest/dest/7/subdir1/subdir3/noreg_2.test", messages[11]
     assert_equal  "copy\ttest/src/reg_1.test\ttest/dest/7/subdir1/subdir3/reg_1.test", messages[12]
@@ -290,5 +290,21 @@ class TestTesler < Test::Unit::TestCase
     assert_equal  "copy\ttest/src/reg_1.test\ttest/dest/7/reg_1.test", messages[17]
     assert_equal  "copy\ttest/src/reg_2.test\ttest/dest/7/reg_2.test", messages[18]
     assert_equal  "copy\ttest/src/reg_3.test\ttest/dest/7/reg_3.test", messages[19]
+  end
+
+  should "log when it can't find a source file" do
+   # We delete the destination if it exists
+   FileUtils.rm_r("test/dest/8") if File.exists?("test/dest/8")
+   
+    source_directory 'test\src'
+
+    directory 'test\dest\8'  do
+      copy 'unknown_file'
+    end
+    
+    assert File.exists?("test/dest/8")
+    messages = @output.messages.map { |m| m.strip }
+    assert_match  /(create|exists)\ttest\/dest\/8/, messages[0]
+    assert_equal "not found\ttest/src/unknown_file", messages[1]
   end
 end
