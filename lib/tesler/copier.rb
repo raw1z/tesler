@@ -56,6 +56,8 @@ module Tesler
       end
       
       Dir.entries(dirname).each do |entry|
+        next if %(. ..).include?(entry)
+
         # when were processing regular expressions, the :rename option is ignored
         options.delete(:rename)
         direct_copy("#{dirname}/#{entry}", options) if entry =~ r
