@@ -48,6 +48,12 @@ module Tesler
       
       # generation of the ruby regexp corresponding to the file regexp
       r = Regexp.new('^' + basename.gsub(/\./, '\.').gsub(/\*/, '(.*)') + '$')
+
+      # check if the directory exists
+      if not File.exists?(dirname)
+        Tesler::Config.output.puts "\tnot found\t#{dirname}"
+        return
+      end
       
       Dir.entries(dirname).each do |entry|
         # when were processing regular expressions, the :rename option is ignored

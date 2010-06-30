@@ -328,4 +328,20 @@ class TestTesler < Test::Unit::TestCase
     assert File.exists?("test/dest/9/reg_2.test")
     assert File.exists?("test/dest/9/reg_3.test")
   end
+
+  should "log when it can't find a source file's directory (regular expressions case only)" do
+    # We delete the destination if it exists
+    FileUtils.rm_r("test/dest/10") if File.exists?("test/dest/10")
+   
+    source_directory 'unknown\src'
+
+    directory 'test\dest\10'  do
+      copy '*.file'
+    end
+    
+    assert File.exists?("test/dest/10")
+    messages = @output.messages.map { |m| m.strip }
+    assert_match  /(create|exists)\ttest\/dest\/10/, messages[0]
+    assert_equal "not found\tunknown/src", messages[1]
+  end
 end
