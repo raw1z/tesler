@@ -125,26 +125,26 @@ class TestTesler < Test::Unit::TestCase
 
     messages = @output.messages.map { |m| m.strip }
     assert_match  /(create|exists)\ttest\/dest\/5/, messages[0]
-    assert_equal  "copy\t./test/src/file1\ttest/dest/5/file1", messages[1]
-    assert_equal  "copy\t./test/src/file2\ttest/dest/5/file2", messages[2]
-    assert_equal  "copy\t./test/src/subdir1/file4\ttest/dest/5/file4", messages[3]
+    assert_equal  "copy\ttest/src/file1\ttest/dest/5/file1", messages[1]
+    assert_equal  "copy\ttest/src/file2\ttest/dest/5/file2", messages[2]
+    assert_equal  "copy\ttest/src/subdir1/file4\ttest/dest/5/file4", messages[3]
     assert_match  /(create|exists)\ttest\/dest\/5\/subdir1/, messages[4]
-    assert_equal  "copy\t./test/src/file3\ttest/dest/5/subdir1/file3", messages[5]
-    assert_equal  "copy\t./test/src/subdir1/file5\ttest/dest/5/subdir1/file5", messages[6]
+    assert_equal  "copy\ttest/src/file3\ttest/dest/5/subdir1/file3", messages[5]
+    assert_equal  "copy\ttest/src/subdir1/file5\ttest/dest/5/subdir1/file5", messages[6]
     assert_match  /(create|exists)\ttest\/dest\/5\/subdir1\/subdir3/, messages[7]
-    assert_equal  "copy\t./test/src/file1\ttest/dest/5/subdir1/subdir3/file1", messages[8]
-    assert_equal  "copy\t./test/src/file2\ttest/dest/5/subdir1/subdir3/file2_renamed", messages[9]
-    assert_equal  "copy\t./test/src/noreg_1.test\ttest/dest/5/subdir1/subdir3/noreg_1.test", messages[10]
-    assert_equal  "copy\t./test/src/noreg_2.test\ttest/dest/5/subdir1/subdir3/noreg_2.test", messages[11]
-    assert_equal  "copy\t./test/src/reg_1.test\ttest/dest/5/subdir1/subdir3/reg_1.test", messages[12]
-    assert_equal  "copy\t./test/src/reg_2.test\ttest/dest/5/subdir1/subdir3/reg_2.test", messages[13]
-    assert_equal  "copy\t./test/src/reg_3.test\ttest/dest/5/subdir1/subdir3/reg_3.test", messages[14]
-    assert_equal  "copy\t./test/src/subdir2\ttest/dest/5/subdir2", messages[15]
-    assert_equal  "copy\t./test/src/subdir2\ttest/dest/5/subdir2_renamed", messages[16]
-    assert_equal  "copy\t./test/src/reg_1.test\ttest/dest/5/reg_1.test", messages[17]
-    assert_equal  "copy\t./test/src/reg_2.test\ttest/dest/5/reg_2.test", messages[18]
-    assert_equal  "copy\t./test/src/reg_3.test\ttest/dest/5/reg_3.test", messages[19]
-    assert_equal  "copy\t./test/src/file2\ttest/dest/5/subdir4/file2", messages[20]
+    assert_equal  "copy\ttest/src/file1\ttest/dest/5/subdir1/subdir3/file1", messages[8]
+    assert_equal  "copy\ttest/src/file2\ttest/dest/5/subdir1/subdir3/file2_renamed", messages[9]
+    assert_equal  "copy\ttest/src/noreg_1.test\ttest/dest/5/subdir1/subdir3/noreg_1.test", messages[10]
+    assert_equal  "copy\ttest/src/noreg_2.test\ttest/dest/5/subdir1/subdir3/noreg_2.test", messages[11]
+    assert_equal  "copy\ttest/src/reg_1.test\ttest/dest/5/subdir1/subdir3/reg_1.test", messages[12]
+    assert_equal  "copy\ttest/src/reg_2.test\ttest/dest/5/subdir1/subdir3/reg_2.test", messages[13]
+    assert_equal  "copy\ttest/src/reg_3.test\ttest/dest/5/subdir1/subdir3/reg_3.test", messages[14]
+    assert_equal  "copy\ttest/src/subdir2\ttest/dest/5/subdir2", messages[15]
+    assert_equal  "copy\ttest/src/subdir2\ttest/dest/5/subdir2_renamed", messages[16]
+    assert_equal  "copy\ttest/src/reg_1.test\ttest/dest/5/reg_1.test", messages[17]
+    assert_equal  "copy\ttest/src/reg_2.test\ttest/dest/5/reg_2.test", messages[18]
+    assert_equal  "copy\ttest/src/reg_3.test\ttest/dest/5/reg_3.test", messages[19]
+    assert_equal  "copy\ttest/src/file2\ttest/dest/5/subdir4/file2", messages[20]
   end
 
   should "allow to set a default src directory" do
@@ -293,8 +293,8 @@ class TestTesler < Test::Unit::TestCase
   end
 
   should "log when it can't find a source file" do
-   # We delete the destination if it exists
-   FileUtils.rm_r("test/dest/8") if File.exists?("test/dest/8")
+    # We delete the destination if it exists
+    FileUtils.rm_r("test/dest/8") if File.exists?("test/dest/8")
    
     source_directory 'test\src'
 
@@ -306,5 +306,26 @@ class TestTesler < Test::Unit::TestCase
     messages = @output.messages.map { |m| m.strip }
     assert_match  /(create|exists)\ttest\/dest\/8/, messages[0]
     assert_equal "not found\ttest/src/unknown_file", messages[1]
+  end
+
+  should "detect and replace environment variables" do
+    # We delete the destination if it exists
+    FileUtils.rm_r("test/dest/9") if File.exists?("test/dest/9")
+
+    # create a new environment variable
+    ENV['TESLER_TEST'] = File.dirname(__FILE__)
+
+    directory '%TESLER_TEST%\dest\9'  do
+      copy '%TESLER_TEST%\src\file1'
+      copy '%TESLER_TEST%\src\*.test'
+    end
+    
+    assert File.exists?("test/dest/9")
+    assert File.exists?("test/dest/9/file1")
+    assert File.exists?("test/dest/9/noreg_1.test")
+    assert File.exists?("test/dest/9/noreg_2.test")
+    assert File.exists?("test/dest/9/reg_1.test")
+    assert File.exists?("test/dest/9/reg_2.test")
+    assert File.exists?("test/dest/9/reg_3.test")
   end
 end

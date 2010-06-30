@@ -14,12 +14,12 @@ module Tesler
 
     # Get the source directory. It is the directory where all the files that we are copying , are taken from.
     def self.source_directory
-      @source_directory ||= '.'
+      @source_directory ||= ''
     end
 
     # Set the source directory
     def self.source_directory=(directory_name)
-      @source_directory = directory_name.to_unix
+      @source_directory = directory_name.tesler
     end
 
     # get the module which performs the copy operations

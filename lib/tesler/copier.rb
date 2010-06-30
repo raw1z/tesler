@@ -12,7 +12,10 @@ module Tesler
 
     # Method called by the DSL method 'copy'
     def copy(file_name, options={})
-      filename = "#{Tesler::Config.source_directory}/#{file_name.to_unix}"
+      filename = file_name.tesler
+      if not Tesler::Config.source_directory.blank?
+        filename = "#{Tesler::Config.source_directory}/#{filename}"
+      end
       
       # if the file's name contains a star, then it is considered as a regular expression
       if filename.include? "*"
