@@ -47,8 +47,9 @@ module Tesler
       r = Regexp.new('^' + basename.gsub(/\./, '\.').gsub(/\*/, '(.*)') + '$')
       
       Dir.entries(dirname).each do |entry|
-        # for now, when using reg exp, the otions are ignored. may be this can change in the future
-        direct_copy("#{dirname}/#{entry}", {}) if entry =~ r
+        # when were processing regular expressions, the :rename option is ignored
+        options.delete(:rename)
+        direct_copy("#{dirname}/#{entry}", options) if entry =~ r
       end
     end
 

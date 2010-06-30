@@ -81,6 +81,7 @@ class TestTesler < Test::Unit::TestCase
       end
 
       copy 'test\src\reg_*.test'
+      copy 'test\src\reg_*.test', :directory => 'subdir2'
     end
 
     assert File.exists?("test/dest/4/subdir1/subdir3/noreg_1.test")
@@ -91,6 +92,9 @@ class TestTesler < Test::Unit::TestCase
     assert File.exists?("test/dest/4/reg_1.test") 
     assert File.exists?("test/dest/4/reg_2.test") 
     assert File.exists?("test/dest/4/reg_3.test") 
+    assert File.exists?("test/dest/4/subdir2/reg_1.test") 
+    assert File.exists?("test/dest/4/subdir2/reg_2.test") 
+    assert File.exists?("test/dest/4/subdir2/reg_3.test") 
   end
 
   should "log its actions" do
