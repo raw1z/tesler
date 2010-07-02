@@ -2,26 +2,29 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'tesler'
 
-# delete destination directory
+# on supprime le repertoire de destination
 FileUtils.rm_r("dest") if File.exists?("dest")
 
 directory 'dest' do
 
-  # copy files into the dest dir
+  # copie de fichiers dans le dossier de destination
   copy 'src\file1'
   copy 'src\file2'
   copy 'src\subdir1\file4'
 
-  # create a sub-directory and copy files into it
+  # creation d'un sous-dossier dans le dossier de destination
   directory 'subdir1' do
     copy 'src\file3'
     copy 'src\subdir1\file5'
+
+    # copie avec un chemin absolu
+    copy 'c:\temp'
     
-    # a sub-directory in the sub-directory
+    # sous-dossier dans le sous-dossier
     directory 'subdir3' do
       copy 'src\file8'
 
-      # copy a file and rename it
+      # copie d'un fichier en le renommant
       copy 'src\file9', :rename => 'renamed'
       
       # copie d'un ensemble de fichiers
@@ -29,13 +32,13 @@ directory 'dest' do
     end
   end
 
-  # copy an entire directory
+  # copie d'un dossier entier
   copy 'src\subdir2'
 
-  # copy an entire directory and rename it
+  # copie d'un dossier entier en le renommant
   copy 'src\subdir2', :rename => 'renamed'
 
-  # file pattern support
+  # copie d'un ensemble de fichiers
   copy 'test\src\reg_*.test'
 end
 
