@@ -20,4 +20,5 @@ pkg
 
 ## PROJECT::SPECIFIC
 test/dest
+example/dest
 *.gemspec
