@@ -1,6 +1,6 @@
 # tesler #
 
-Tesler is a small DSl which allows you to describe a directory/file hierarchy where to copy some files. 
+Tesler is a small DSL which allows you to describe a directory/file hierarchy where to copy some files. 
 
 ## Installation ##
 
@@ -10,7 +10,7 @@ Just run the following command :
 
 ## Usage ##
 
-Look at the example in the gem directory for details.
+Look at the example and tests in the gem directory for details.
 
 ## Note on Patches/Pull Requests ##
  
